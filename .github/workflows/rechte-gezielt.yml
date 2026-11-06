@@ -1,0 +1,34 @@
+name: Rechte gezielt
+
+# Nur von Hand startbar. Die Schritte versuchen zu schreiben und melden, ob das Token es darf.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    name: Probe
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Issue anlegen
+        run: |
+          if gh issue create --repo "$GITHUB_REPOSITORY" --title "Probe gezielt" --body "Angelegt von Lauf $GITHUB_RUN_ID"; then
+            printf 'Ergebnis %s: %s\n' "Issue" "ERLAUBT"
+          else
+            printf 'Ergebnis %s: %s\n' "Issue" "VERWEIGERT"
+          fi
+      - name: Tag anlegen
+        run: |
+          if gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" -f "ref=refs/tags/probe-gezielt-$GITHUB_RUN_ID" -f "sha=$GITHUB_SHA"; then
+            printf 'Ergebnis %s: %s\n' "Tag" "ERLAUBT"
+          else
+            printf 'Ergebnis %s: %s\n' "Tag" "VERWEIGERT"
+          fi
