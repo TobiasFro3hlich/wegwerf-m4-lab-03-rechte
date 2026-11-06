@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Code holen
+        uses: actions/checkout@v7
+      - name: Node einrichten
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Abhängigkeiten installieren
+        run: npm ci
+      - name: Tests ausführen
+        run: npm test

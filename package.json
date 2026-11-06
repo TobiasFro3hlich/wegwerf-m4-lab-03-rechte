@@ -1,0 +1,10 @@
+{
+  "name": "aufgaben-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Frei erfundenes Beispielprojekt des Workshops, ohne Abhängigkeiten.",
+  "scripts": {
+    "test": "node --test"
+  }
+}
