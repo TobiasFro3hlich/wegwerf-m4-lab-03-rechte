@@ -24,7 +24,7 @@ jobs:
           fi
       - name: Tag anlegen
         run: |
-          if gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" -f "ref=refs/tags/probe-knapp-$GITHUB_RUN_ID" -f "sha=$GITHUB_SHA"; then
+          if gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" -f "ref=refs/tags/probe-knapp-$GITHUB_RUN_ID" -f "sha=$GITHUB_SHA" >/dev/null 2>&1; then
             printf 'Ergebnis %s: %s\n' "Tag" "ERLAUBT"
           else
             printf 'Ergebnis %s: %s\n' "Tag" "VERWEIGERT"
